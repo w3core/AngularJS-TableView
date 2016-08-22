@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" ng-app="app">
+
+  <head>
+    <title>AngularJS TableView</title>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta content="application/xhtml+xml; charset=utf-8" http-equiv="content-type" />
+
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+    <link rel="stylesheet/less" type="text/css" href="../angular.tableview.less" />
+    <script type="text/javascript" src="../angular.tableview.js"></script>
+
+    <script type="text/javascript" src="//rawgit.com/LeaVerou/prefixfree/gh-pages/prefixfree.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
+
+    <script type="text/javascript" src="script.js"></script>
+  </head>
+
+  <body ng-controller="Ctrl">
+    <h1>AngularJS TableView</h1>
+
+    <h3>Minimal example (see: $scope.tableviewOptionsMinimal)</h3>
+    <div tableview="tableviewOptionsMinimal"></div>
+
+    <h3>Complete example (see: $scope.tableviewOptions)</h3>
+
+    <!-- Custom template for ID body cell -->
+    <script type="text/ng-template" id="Ctrl.body.cell.id">
+      <a href='#' ng-click='$scope.myFn($row.id, $row.name)'>{{$cell}}</a>
+    </script>
+
+    <!-- Custom template for MANAGE body cell -->
+    <script type="text/ng-template" id="Ctrl.body.cell.manage">
+      <button ng-click='$scope.myFn($row.id, $row.name)'>Edit</button>
+    </script>
+
+    <div tableview="tableviewOptions"
+         tableview-template-url=""
+         >
+    </div>
+  </body>
+</html>

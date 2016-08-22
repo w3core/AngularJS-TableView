@@ -107,8 +107,8 @@ var request = {
   // (Array) The list of the fields with sorting order
   // by which should be sorted result entries
   order: [
-    {"field_1": "ASC"},
-    {"field_2": "DESC"},
+    {field:"field_1", sorting:"ASC"},
+    {field:"field_2", sorting:"DESC"},
     // ...
   ],
 
