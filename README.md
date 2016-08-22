@@ -1,13 +1,16 @@
-# AngularJS TableView
+# AngularJS TableView ([example])
 
 [AngularJS]: https://angularjs.org/
 [ng-template]: https://docs.angularjs.org/api/ng/directive/script
+[example]: https://rawgit.com/w3core/AngularJS-TableView/master/example/index.html
 
 A data grid for [AngularJS].
 
 * Native [AngularJS] implementation, no jQuery
 * Plugin architecture allows you to use only the features you need
 * Complete customisation by using [AngularJS] templates (aka. [ng-template]) and directive configuration.
+
+
 
 ## Quick Start
 
