@@ -1,6 +1,6 @@
 /*
  AngularJS TableView v1.0
- (c) 2016 Max Chuhryaev <w3core@gmail.com> http://plnkr.co/edit/d10SwC
+ (c) 2016 Max Chuhryaev <w3core@gmail.com> https://github.com/w3core/AngularJS-TableView
  License: MIT
 */
 angular
