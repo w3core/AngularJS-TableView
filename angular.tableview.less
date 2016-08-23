@@ -21,6 +21,10 @@
     width: 100%;
     border-spacing: 0;
     border-collapse: collapse;
+    & th, & td {
+      text-align: left;
+      vertical-align: top;
+    }
     & > * > tr > * {
       padding: @padding-v @padding-h;
       &:first-child {padding-left: @padding-side;}
@@ -28,9 +32,18 @@
     }
     & > thead > tr > * {
       font-weight: bold;
+      white-space: nowrap;
       text-transform: uppercase;
       background-color: @bg-header;
       & > span {vertical-align: middle;}
+      &.filterable {
+        & > input {
+          display: block;
+          box-sizing: border-box;
+          width: 100%;
+          margin-top: @padding-v;
+        }
+      }
       &.sortable {
         cursor: pointer;
         & > .sort {
@@ -40,12 +53,12 @@
           display: inline-block;
           &:before, &:after {
             content: "";
-            display: inline-block;
+            display: block;
             vertical-align: middle;
             width: 0;
             height: 0;
             line-height: 0;
-            margin: .1em;
+            margin: 0 0 .1em;
           }
           &:before {
             border-left: .5em solid transparent;

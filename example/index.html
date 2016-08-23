@@ -15,6 +15,7 @@
     <script type="text/javascript" src="//rawgit.com/LeaVerou/prefixfree/gh-pages/prefixfree.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
 
+    <script type="text/javascript" src="random.name.js"></script>
     <script type="text/javascript" src="script.js"></script>
   </head>
 
@@ -28,17 +29,14 @@
 
     <!-- Custom template for ID body cell -->
     <script type="text/ng-template" id="Ctrl.body.cell.id">
-      <a href='#' ng-click='$scope.myFn($row.id, $row.name)'>{{$cell}}</a>
+      <a href='#' ng-click='$scope.myFn($row)'>{{$cell}}</a>
     </script>
 
     <!-- Custom template for MANAGE body cell -->
     <script type="text/ng-template" id="Ctrl.body.cell.manage">
-      <button ng-click='$scope.myFn($row.id, $row.name)'>Edit</button>
+      <button ng-click='$scope.myFn($row.id)'>Edit</button>
     </script>
 
-    <div tableview="tableviewOptions"
-         tableview-template-url=""
-         >
-    </div>
+    <div tableview="tableviewOptions" tableview-template-url=""></div>
   </body>
 </html>
