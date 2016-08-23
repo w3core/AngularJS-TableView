@@ -33,13 +33,17 @@ angular
         $scope.tableview.pages = 1;
 
         $scope.tableview.limits = $scope.tableview.limits || [10, 25, 50, 100];
-        $scope.tableview.request = $scope.tableview.request || {};
-        $scope.tableview.request.page = $scope.tableview.request.page || 1;
-        $scope.tableview.request.limit = $scope.tableview.request.limit || $scope.tableview.limits[0];
-        $scope.tableview.request.order = $scope.tableview.request.order || [];
-        $scope.tableview.request.like = $scope.tableview.request.like || {};
+
+        function updateRequest () {
+          $scope.tableview.request = $scope.tableview.request || {};
+          $scope.tableview.request.page = $scope.tableview.request.page || 1;
+          $scope.tableview.request.limit = $scope.tableview.request.limit || $scope.tableview.limits[0];
+          $scope.tableview.request.order = $scope.tableview.request.order || [];
+          $scope.tableview.request.like = $scope.tableview.request.like || {};
+        }
 
         $scope.exec = function () {
+          updateRequest();
           for (var i in $scope.tableview.columns) {
             if ($scope.tableview.columns[i].sortable) {
               var v = $scope.getSort($scope.tableview.columns[i].field);
@@ -115,6 +119,7 @@ angular
             typeof $scope.tableview.request.like[field] == "string"
             && !$scope.tableview.request.like[field].trim()
           ) delete $scope.tableview.request.like[field];
+          $scope.tableview.request.page = 1;
           $scope.exec();
         };
 
