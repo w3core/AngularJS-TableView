@@ -34,14 +34,33 @@
       font-weight: bold;
       white-space: nowrap;
       text-transform: uppercase;
+      vertical-align: middle;
       background-color: @bg-header;
       & > span {vertical-align: middle;}
       &.filterable {
         & > input {
           display: block;
           box-sizing: border-box;
+          font-size: 1em;
           width: 100%;
-          margin-top: @padding-v;
+          margin-top: @padding-v/2;
+          background: transparent;
+          border-radius: 0;
+          border: 0 none;
+          border-top: 1px solid #ddd;
+          padding: @padding-v/2 0 0;
+          outline: 0 none;
+          color: #31a0e7;
+          &:hover::-webkit-input-placeholder {opacity: 1; color: #31a0e7;}
+          &:focus::-webkit-input-placeholder {opacity: 1; color: #31a0e7;}
+          &:hover::-moz-placeholder          {opacity: 1; color: #31a0e7;}
+          &:focus::-moz-placeholder          {opacity: 1; color: #31a0e7;}
+          &:hover:-ms-input-placeholder      {opacity: 1; color: #31a0e7;}
+          &:focus:-ms-input-placeholder      {opacity: 1; color: #31a0e7;}
+          &:hover, &:focus, &:valid {
+            box-shadow: none;
+            border-color: #31a0e7;
+          }
         }
       }
       &.sortable {
