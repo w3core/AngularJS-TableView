@@ -102,9 +102,12 @@
     }
   }
   & > pager {
+    &, * {vertical-align: middle;}
     display: block;
     padding: @padding-v @padding-side;
     background-color: @bg-pager;
+    color: @color-pager;
+    text-shadow: 1px 1px 1px #fff;
     font-weight: bold;
     text-transform: uppercase;
     &:after {
@@ -120,5 +123,71 @@
     }
     & > .limit {float:left;}
     & > .controls {float:right;}
+    & > .limit {
+      &:before {
+        content: "Per page";
+        user-select: none;
+        font-size: .7em;
+        margin-right: .5em;
+      }
+      & > select {
+        font-size: 1em;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: .22em;
+        height: 1.72em;
+        color: @color;
+        outline: 0 none;
+      }
+    }
+    & > .controls {
+      & > .pageOf {
+        font-size: .7em;
+        margin-right: 1em;
+        user-select: none;
+      }
+      & > button {
+        font-size: 1em;
+        position: relative;
+        background: #fff;
+        border: 1px solid #ccc;
+        outline: 0 none;
+        padding: 0;
+        vertical-align: middle;
+        width: 2.64em;
+        height: 1.72em;
+        overflow: hidden;
+        color: transparent;
+        cursor: pointer;
+        &:before {
+          content: "<";
+          color: #bbb;
+          position: absolute;
+          left: 0;
+          right: 0;
+          text-align: center;
+          font-weight: bold;
+        }
+        &.prev {
+          border-top-left-radius: .22em;
+          border-bottom-left-radius: .22em;
+          margin-right:-1px;
+        }
+        &.next {
+          border-top-right-radius: .22em;
+          border-bottom-right-radius: .22em;
+        }
+        &.next:before {
+          content: ">";
+        }
+        &:disabled {
+          cursor: default;
+          background: @bg-pager;
+        }
+        &:not(:disabled):hover {
+          background: #fafafa;
+        }
+      }
+    }
   }
 }
