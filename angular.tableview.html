@@ -28,8 +28,7 @@
   <span class="pageOf">
     Page {{tableview.request.page}} of {{tableview.pages}}
   </span>
-  <button class="prev" ng-click="prev()" ng-disabled="tableview.request.page < 2">Prev</button>
-  <button class="next" ng-click="next()" ng-disabled="tableview.request.page >= tableview.pages">Next</button>
+  <button class="prev" ng-click="prev()" ng-disabled="tableview.request.page < 2">Prev</button><button class="next" ng-click="next()" ng-disabled="tableview.request.page >= tableview.pages">Next</button>
 </script>
 
 <table>
