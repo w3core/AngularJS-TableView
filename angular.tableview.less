@@ -21,6 +21,7 @@
     width: 100%;
     border-spacing: 0;
     border-collapse: collapse;
+    table-layout: fixed;
     & th, & td {
       text-align: left;
       vertical-align: top;
@@ -110,6 +111,7 @@
     text-shadow: 1px 1px 1px #fff;
     font-weight: bold;
     text-transform: uppercase;
+    user-select: none;
     &:after {
       content:"";
       display:block;
@@ -126,7 +128,6 @@
     & > .limit {
       &:before {
         content: "Per page";
-        user-select: none;
         font-size: .7em;
         margin-right: .5em;
       }
@@ -136,15 +137,20 @@
         border: 1px solid #ccc;
         border-radius: .22em;
         height: 1.72em;
+        padding: 0 0 0 .3em;
         color: @color;
         outline: 0 none;
+        cursor: pointer;
+        &:hover, &:focus {
+          background: #fafafa;
+          box-shadow: none;
+        }
       }
     }
     & > .controls {
       & > .pageOf {
         font-size: .7em;
         margin-right: 1em;
-        user-select: none;
       }
       & > button {
         font-size: 1em;
