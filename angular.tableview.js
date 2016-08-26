@@ -57,6 +57,8 @@ angular
             $scope.tableview.pages = Math.ceil(response.amount/(response.limit || 1));
             $scope.tableview.request.page = response.page;
             $scope.tableview.request.limit = response.limit;
+            var $node = $element[0], $scroller = $node.querySelector(".scrollable");
+            if ($scroller && $scroller.parentNode == $node) $scroller.scrollTop = 0;
           });          
         };
         // Execution function sharing for external calls (filters extending logic)

@@ -223,6 +223,11 @@ $scope.configuration = {
   multisorting: false,
 
   // (Array) [optional] Default: [10, 25, 50, 100]. Custom list of limit numbers.
-  limits: [10, 50, 100]
+  limits: [10, 50, 100],
+
+  // (Object) [optional] Turns on scrollable logic for the table area
+  scrollable: {
+    maxHeight: "400px"
+  }
 };
 ```

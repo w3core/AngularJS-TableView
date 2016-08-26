@@ -30,55 +30,56 @@
   </span>
   <button class="prev" ng-click="prev()" ng-disabled="tableview.request.page < 2">Prev</button><button class="next" ng-click="next()" ng-disabled="tableview.request.page >= tableview.pages">Next</button>
 </script>
-
-<table>
-  <thead>
-    <tr>
-      <th ng-repeat="$column in tableview.columns"
-          ng-include="
-            $column.template['head.cell']
-            || tableview.template['head.cell']
-            || 'tableview.head.cell'
-          "
-          class="{{
-            $column.name ? 'column-'+$column.name : ''
-            }} {{
-            $column.field ? 'column-'+$column.field : ''
-          }}"
-          ng-class="{
-            'sortable':$column.sortable && $column.field,
-            'sortable-asc':$column.sorting == 'ASC',
-            'sortable-desc':$column.sorting == 'DESC',
-            'filterable':$column.filterable
-          }"
-          ng-click="switchSort($column.field)"
-      ></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="$row in tableview.rows" ng-if="$index < tableview.request.limit">
-      <td ng-repeat="$column in tableview.columns"
-          ng-init="$cell = $row[$column.field]"
-          ng-include="
-            $column.template['body.cell']
-            || tableview.template['body.cell']
-            || 'tableview.body.cell'
-          "
-          class="{{
-            $column.name ? 'column-'+$column.name : ''
-            }} {{
-            $column.field ? 'column-'+$column.field : ''
-          }}"
-          ng-class="{
-            'sortable':$column.sortable && $column.field,
-            'sortable-asc':$column.sorting == 'ASC',
-            'sortable-desc':$column.sorting == 'DESC',
-            'filterable':$column.filterable
-          }"
-      ></td>
-    </tr>
-  </tbody>
-  <tfoot ng-if="tableview.template.foot" ng-include="tableview.template.foot"></tfoot>
-</table>
+<div class="holder" ng-class="{'scrollable': !!tableview.scrollable}" ng-style="tableview.scrollable">
+  <table>
+    <thead>
+      <tr>
+        <th ng-repeat="$column in tableview.columns"
+            ng-include="
+              $column.template['head.cell']
+              || tableview.template['head.cell']
+              || 'tableview.head.cell'
+            "
+            class="{{
+              $column.name ? 'column-'+$column.name : ''
+              }} {{
+              $column.field ? 'column-'+$column.field : ''
+            }}"
+            ng-class="{
+              'sortable':$column.sortable && $column.field,
+              'sortable-asc':$column.sorting == 'ASC',
+              'sortable-desc':$column.sorting == 'DESC',
+              'filterable':$column.filterable
+            }"
+            ng-click="switchSort($column.field)"
+        ></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="$row in tableview.rows" ng-if="$index < tableview.request.limit">
+        <td ng-repeat="$column in tableview.columns"
+            ng-init="$cell = $row[$column.field]"
+            ng-include="
+              $column.template['body.cell']
+              || tableview.template['body.cell']
+              || 'tableview.body.cell'
+            "
+            class="{{
+              $column.name ? 'column-'+$column.name : ''
+              }} {{
+              $column.field ? 'column-'+$column.field : ''
+            }}"
+            ng-class="{
+              'sortable':$column.sortable && $column.field,
+              'sortable-asc':$column.sorting == 'ASC',
+              'sortable-desc':$column.sorting == 'DESC',
+              'filterable':$column.filterable
+            }"
+        ></td>
+      </tr>
+    </tbody>
+    <tfoot ng-if="tableview.template.foot" ng-include="tableview.template.foot"></tfoot>
+  </table>
+</div>
 <pager ng-include="tableview.template['pager'] || 'tableview.pager'"></pager>
 <pre ng-if="tableview.debug">{{tableview | json}}</pre>

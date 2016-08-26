@@ -42,6 +42,9 @@ app.controller("Ctrl", function ($scope) {
     ],
     provider: dataProvider,
     request: request,
+    scrollable: {
+      maxHeight: "300px"
+    },
     multisorting: false,
     limits: [10, 25, 50, 100],
     debug:true

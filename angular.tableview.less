@@ -12,16 +12,49 @@
 @bg-pager: #e6e6e6;
 
 [tableview] {
+  display: inline-block;
+  position: relative;
   font-family: sans-serif;
-  overflow: auto;
   font-size: @font-size;
   color: @color;
   border: 1px solid @border-color;
-  & > table {
+  :focus {outline: 0 none;}
+  ::-moz-focus-inner {border: 0;}
+  & > .scrollable {
+    overflow-y: scroll;
+    margin-right: -15px;
+    max-height: 400px;
+    &::-webkit-scrollbar {
+      width: 15px;
+      height: 15px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border: 3px solid transparent;
+      border-radius: 7px;
+      background: rgba(0, 0, 0, 0);
+      background-clip: padding-box;
+    }
+    &:hover::-webkit-scrollbar-thumb {
+      min-height: 40px;
+      border: 5px solid transparent;
+      background: rgba(0, 0, 0, .1);
+      background-clip: padding-box;
+    }
+    &::-webkit-scrollbar-thumb:horizontal:hover,
+    &::-webkit-scrollbar-thumb:vertical:hover {background-color: rgba(0,0,0,.2)}
+    &::-webkit-scrollbar-thumb:horizontal:active,
+    &::-webkit-scrollbar-thumb:vertical:active{background-color: #31a0e7;}
+    &::-webkit-scrollbar-corner {background: transparent}
+  }
+  & > .holder {
+    display: block;
+    position: relative;
+  }
+  & > .holder > table {
     width: 100%;
     border-spacing: 0;
     border-collapse: collapse;
-    table-layout: fixed;
+    /*table-layout: fixed;*/
     & th, & td {
       text-align: left;
       vertical-align: top;
