@@ -11,6 +11,18 @@
   />
 </script>
 
+<script type="text/ng-template" id="tableview.head.cell.select">
+  <label><input
+    type="checkbox"
+    class="hidden"
+    ng-checked="isRowsSelected()"
+    ng-click="onSelectPageRows($event)"
+  /><i class="ui-checkbox"></i></label>
+</script>
+<script type="text/ng-template" id="tableview.body.cell.select">
+  <label><input type="checkbox" class="hidden" ng-checked="isRowSelected($row)" ng-click="switchRowSelection($row)" /><i class="ui-checkbox"></i></label>
+</script>
+
 <script type="text/ng-template" id="tableview.body.cell">{{$cell}}</script>
 
 <script type="text/ng-template" id="tableview.pager">
@@ -34,6 +46,13 @@
   <table>
     <thead>
       <tr>
+        <th ng-if="tableview.selectableBy"
+            class="selectable"
+            ng-include="
+              tableview.template['head.cell.select']
+              || 'tableview.head.cell.select'
+            "
+        ></th>
         <th ng-repeat="$column in tableview.columns"
             ng-include="
               $column.template['head.cell']
@@ -56,7 +75,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="$row in tableview.rows" ng-if="$index < tableview.request.limit">
+      <tr ng-repeat="$row in tableview.rows" ng-if="$index < tableview.request.limit" ng-class="{'selected': tableview.selectableBy && isRowSelected($row)}">
+        <td ng-if="tableview.selectableBy"
+            class="selectable"
+            ng-include="
+              tableview.template['body.cell.select']
+              || 'tableview.body.cell.select'
+            "
+        ></td>
         <td ng-repeat="$column in tableview.columns"
             ng-init="$cell = $row[$column.field]"
             ng-include="

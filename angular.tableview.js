@@ -34,7 +34,8 @@ angular
 
         $scope.tableview.limits = $scope.tableview.limits || [10, 25, 50, 100];
 
-        function updateRequest () {
+        function updateOptions () {
+          $scope.tableview.selection = $scope.tableview.selection || [];
           $scope.tableview.request = $scope.tableview.request || {};
           $scope.tableview.request.page = $scope.tableview.request.page || 1;
           $scope.tableview.request.limit = $scope.tableview.request.limit || $scope.tableview.limits[0];
@@ -43,7 +44,7 @@ angular
         }
 
         $scope.exec = function () {
-          updateRequest();
+          updateOptions();
           for (var i in $scope.tableview.columns) {
             if ($scope.tableview.columns[i].sortable) {
               var v = $scope.getSort($scope.tableview.columns[i].field);
@@ -139,6 +140,55 @@ angular
           $scope.tableview.request.page = 1;
           $scope.tableview.request.limit *= 1;
           $scope.exec();
+        };
+
+        $scope.getRowSelectionIndex = function ($row) {
+          if (
+            typeof $scope.tableview.selectableBy != "string"
+            || !$scope.tableview.selectableBy.trim().length
+            || typeof $row[$scope.tableview.selectableBy] == "undefined"
+          ) return;
+          var key = $scope.tableview.selectableBy;
+          var val = $row[$scope.tableview.selectableBy];
+          for (var i=0; i<$scope.tableview.selection.length; i++) {
+            if ($scope.tableview.selection[i][key] == val) return i*1;
+          }
+          return -1;
+        };
+
+        $scope.switchRowSelection = function ($row, sign) {
+          var index = $scope.getRowSelectionIndex($row);
+          if (typeof index != "number") return;
+          if (typeof sign == "boolean") {
+            if (index < 0 && sign) $scope.tableview.selection.push(angular.copy($row));
+            else if (index >= 0 && !sign) $scope.tableview.selection.splice(index, 1);
+          }
+          else {
+            if (index < 0) $scope.tableview.selection.push(angular.copy($row));
+            else $scope.tableview.selection.splice(index, 1);
+          }
+        };
+
+        $scope.isRowSelected = function ($row) {
+          var i = $scope.getRowSelectionIndex($row);
+          return !!(typeof i == "number" && i >= 0);
+        };
+
+        $scope.isRowsSelected = function () {
+          var $rows = $scope.tableview.rows.slice(0, $scope.tableview.request.limit);
+          if (!$rows.length || !$scope.tableview.selection.length) return false;
+          for (var i=0; i<$rows.length; i++) {
+            if (!$scope.isRowSelected($rows[i])) return false;
+          }
+          return true;
+        };
+
+        $scope.onSelectPageRows = function ($event) {
+          var sign = $event.target.checked;
+          var $rows = $scope.tableview.rows.slice(0, $scope.tableview.request.limit);
+          for (var i=0; i<$rows.length; i++) {
+            $scope.switchRowSelection($rows[i], sign);
+          }
         };
 
         $scope.exec();

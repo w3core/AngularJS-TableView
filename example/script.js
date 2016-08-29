@@ -42,6 +42,7 @@ app.controller("Ctrl", function ($scope) {
     ],
     provider: dataProvider,
     request: request,
+    selectableBy: "id",
     scrollable: {
       maxHeight: "300px"
     },

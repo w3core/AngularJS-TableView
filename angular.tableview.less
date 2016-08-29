@@ -71,6 +71,7 @@
       vertical-align: middle;
       background-color: @bg-header;
       & > span {vertical-align: middle;}
+      &.selectable {width: 5em;}
       &.filterable {
         & > input {
           display: block;
@@ -130,6 +131,7 @@
     }
     & > tbody {
       &  > tr {
+        &.selected {background-color: #ffd;}
         &:not(:first-child) {border-top: 1px solid @border-color;}
         &:hover {background: @bg-row-hover; transition: background .2s;}
       }

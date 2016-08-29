@@ -228,6 +228,9 @@ $scope.configuration = {
   // (Object) [optional] Turns on scrollable logic for the table area
   scrollable: {
     maxHeight: "400px"
-  }
+  },
+
+  // (String) [optional] Turns on rows selection logic by primary key field
+  selectableBy: "id"
 };
 ```
