@@ -148,89 +148,67 @@ var response = {
 
 **`CONFIGURATION` structure**
 
-All properties of the `CONFIGURATION` object except `columns` are `[optional]`
+All properties of the `CONFIGURATION` object except `columns` and `provider` are `[optional]`
+
+| Property                     | Type                | Details                                                                                                                                                                                                                                     |
+|:-----------------------------|:-------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| provider                     | `required` Function | The function that provides `response` data for the current instance of the TableView                                                                                                                                                        |
+| columns                      | `required` Array    | Array of `column` Objects with definitions of visible columns                                                                                                                                                                               |
+| column.field                 | `optional` String   | The name of field in DB that can be used for the sorting and filtering logic. In additional it creates CSS class "column-{{field_name}}" that can be used for UI customisation                                                              |
+| column.name                  | `optional` String   | An unique name of the field that can be used for UI customisation from CSS via using of CSS class "column-{{name}}" when `field` is not defined                                                                                             |
+| column.title                 | `optional` String   | The column title                                                                                                                                                                                                                            |
+| column.placeholder           | `optional` String   | Placeholder for the filter input. Default: "Search..."                                                                                                                                                                                      |
+| column.sortable              | `optional` Boolean  | Enables sorting logic for the column. Requires `field` property. In additional it creates CSS classes "sortable" and "sortable-{{asc|desc}}" that can be used for UI customisation                                                          |
+| column.filterable            | `optional` Boolean  | Enables filtering logic for the column. Requires "field" property. In additional it creates CSS class "filterable" that can be used for UI customisation                                                                                    |
+| column.template              | `optional` Object   | The list of templates that should to be replaced for the current column cell by using custom templates (see AngularJS ng-template). The name of property is reserved word, that used to define replacement area in TableView template file. |
+| column.template["head.cell"] | `optional` String   | An identifier of template to be used as cell of table header                                                                                                                                                                                |
+| column.template["body.cell"] | `optional` String   | An identifier of template to be used as cell of table body                                                                                                                                                                                  |
+| column.template["foot.cell"] | `optional` String   | An identifier of template to be used as cell of table footer. Requires of `template["foot"]` generic template implementation.                                                                                                               |
+| template                     | `optional` Object   | The list of templates that should to be replaced by using custom templates (see AngularJS ng-template). The name of property is reserved word, that used to define replacement area in TableView template file.                             |
+| template["head.cell"]        | `optional` String   | An identifier of the generic template to be used as cell of table header                                                                                                                                                                    |
+| template["head.cell.select"] | `optional` String   | An identifier of the template that contains implementation of toggle selection logic for all rows on the page when selectable logic used                                                                                                    |
+| template["body.cell"]        | `optional` String   | An identifier of the generic template to be used as cell of table body                                                                                                                                                                      |
+| template["body.cell.select"] | `optional` String   | An identifier of the template that contains implementation of  toggle selection logic for the current row when selectable logic used                                                                                                        |
+| template["foot"]             | `optional` String   | An identifier of the generic template to be used as table header. Not implemented by default                                                                                                                                                |
+| template["pager"]            | `optional` String   | An identifier of the generic template to be used as pager section of the table                                                                                                                                                              |
+| template["pager.limit"]      | `optional` String   | An identifier of the generic template to be used as pager limit section of the pager                                                                                                                                                        |
+| template["pager.controls"]   | `optional` String   | An identifier of the generic template to be used as pager limit controls section of the pager                                                                                                                                               |
+| request                      | `optional` Object   | Initial custom request object that can be used to provide stored request from previous user session                                                                                                                                         |
+| multisorting                 | `optional` Boolean  | Turns on multicolumns sorting logic                                                                                                                                                                                                         |
+| selectableBy                 | `optional` String   | Turns on rows selection logic by primary key field                                                                                                                                                                                          |
+| scrollable                   | `optional` Object   | Turns on scrollable logic for the table area and allows to provide custom styles for scrollable area such as `{maxHeight: "400px"}`                                                                                                         |
+| limits                       | `optional` Array    | Default: [10, 25, 50, 100]. Custom list of limit numbers                                                                                                                                                                                    |
+
+Configuration object example:
+
 ```javascript
 $scope.configuration = {
-
-  // (Object) [optional] The list of templates that should to be replaced
-  // by using custom templates (see AngularJS ng-template).
-  // The name of property is reserved word, that used to define replacement area
-  // in  TableView template file.
   template: {
     "head.cell": "your/custom/angular/template.name.html",
     "body.cell": "embed.to.the.view.angular.template.id",
-    "foot": null,
-    "pager": null,
-    "pager.limit": null,
-    "pager.controls": null
   },
-
-  // (Array) [required] Columns definition. Array of Objects with column definition
   columns: [
-
     {
-      // (String) [optional] The name of field in DB
-      // that can be used for sorting and filtering logic.
-      // In additional it creates CSS class "column-{{field_name}}" that can be
-      // used for UI customisation
       field: "field_name",
-
-      // (String) [optional] The unique name of the field that can be used for UI
-      // customisation from CSS via using of CSS class "column-{{name}}"
       name: "name",
-
-      // (String) [optional] The column title
       title: "Id",
-
-      // (String) [optional] Default:"Search...". Placeholder for the filter input
       placeholder: "Filter placeholder string",
-      
-      // (Boolean) [optional] Enables sorting logic for the column.
-      // Requires "field" property.
-      // In additional it creates CSS classes "sortable" and "sortable-{{asc|desc}}"
-      // that can be used for UI customisation
       sortable:true,
-
-      // (Boolean) [optional] Enables filtering logic for the column.
-      // Requires "field" property.
-      // In additional it creates CSS class "filterable" that can be used for UI customisation
       filterable:false,
-
-      // (Object) [optional] The list of templates that should to be replaced
-      // for the current column cell by using custom templates (see AngularJS ng-template).
-      // The name of property is reserved word, that used to define replacement area
-      // in TableView template file.
       template: {
         "head.cell": "your/custom/angular/template.name.html",
         "body.cell": "embed.to.the.view.angular.template.id",
-        "foot.cell": null,
       },
     },
-
     // ...
-
   ],
-
-  // (Function) [required] The function that provides response data
-  // for the current instance of the TableView
   provider: function (request, callback) { callback(response); },
-
-  // (Object) [optional] Initial custom request object
-  // that can be used to provide stored request from previous user session.
   request: {/* see `REQUEST` structure */},
-
-  // (Boolean) [optional] Turns on multicolumns sorting logic
   multisorting: false,
-
-  // (Array) [optional] Default: [10, 25, 50, 100]. Custom list of limit numbers.
   limits: [10, 50, 100],
-
-  // (Object) [optional] Turns on scrollable logic for the table area
   scrollable: {
     maxHeight: "400px"
   },
-
-  // (String) [optional] Turns on rows selection logic by primary key field
   selectableBy: "id"
 };
 ```
