@@ -184,6 +184,7 @@ var response = {
 
 All properties of the `CONFIGURATION` object except `columns` and [provider] are `[optional]`
 <a name="provider"></a>
+
 | Property                     | Type                | Details                                                                                                                                                                                                                                                       |
 |:-----------------------------|:-------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | provider                     | `required` Function | The function that receives current [request] object and callback function as arguments and should provide [response] object for the current [request] to the instance of TableView via calling of callback function by passing [response] object as argument  |
