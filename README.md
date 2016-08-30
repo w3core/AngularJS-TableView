@@ -15,6 +15,8 @@ A data grid for [AngularJS].
 * Fluid [configuration] allows you to use only the features you need
 * Complete customisation by using [AngularJS] templates (aka. [ng-template]) and directive [configuration].
 
+![Example](https://raw.githubusercontent.com/w3core/AngularJS-TableView/master/example/example.gif)
+
 ## Table of contents
 
 1. [Quick Start](#start)
