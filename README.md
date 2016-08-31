@@ -1,11 +1,11 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)]()
-[![experiments](https://img.shields.io/badge/experiments-Plunker-blue.svg?maxAge=2592000)](https://embed.plnkr.co/d10SwC/)
+[![experiments](https://img.shields.io/badge/experiments-Plunker-blue.svg?maxAge=2592000)](https://plnkr.co/edit/d10SwC?p=preview)
 
 # AngularJS TableView ([example])
 
 [AngularJS]: https://angularjs.org/
 [ng-template]: https://docs.angularjs.org/api/ng/directive/script
-[example]: https://rawgit.com/w3core/AngularJS-TableView/master/example/index.html
+[example]: https://plnkr.co/edit/d10SwC?p=preview
 
 [request]: #request
 [response]: #response
