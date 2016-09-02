@@ -5,6 +5,20 @@
 */
 angular
 .module("tableview", [])
+.directive("tableviewAutofocus", function ($timeout) {
+  return {
+    restrict: "A",
+    link: function ($scope, $element, $attributes) {
+      if ($scope.$eval($attributes.autoFocus) !== false) {
+        var element = $element[0];
+        $timeout(function() {
+          $scope.$emit("focus", element);
+          element.focus();
+        });
+      }
+    }
+  };
+})
 .directive("tableview", function($compile, $http) {
 
   var MODULE_NAME = "angular.tableview";
@@ -124,6 +138,45 @@ angular
           ) delete $scope.tableview.request.like[field];
           $scope.tableview.request.page = 1;
           $scope.exec();
+        };
+
+        $scope.validate = function ($index, $row, $mode) {
+          var column = $scope.tableview.columns[$index];
+          var valid = function() {return {message: "", status: true};};
+          if (!column.editable || typeof column.editable != "object") {
+            $mode.validation = valid();
+            return true;
+          }
+          else if (typeof column.editable.validate != "function") {
+            column.editable.validate = valid;
+          }
+          var result = column.editable.validate(column, $row, column.field, $mode.value);
+          if (typeof result == "boolean") {
+            result = result ? valid() : {message: "", status: false};
+          }
+          result = result && typeof result == "object" ? result : {};
+          result.status = !!result.status;
+          result.message = typeof result.message == "string" ? result.message : "";
+          $mode.validation = result;
+          return result.status;
+        };
+
+        $scope.edition = function ($index, $row, $mode) {
+          var column = $scope.tableview.columns[$index];
+          var validation = $scope.validate($index, $row, $mode);
+          var changed = !!($mode.value !== $row[column.field]);
+          if (column.editable && validation) $row[column.field] = $mode.value;
+          else $mode.value = $row[column.field];
+          if (
+            validation
+            && changed
+            && column.editable
+            && typeof column.editable == "object"
+            && typeof column.editable.change == "function"
+          ) column.editable.change(column, $row, column.field, $row[column.field]);
+          $mode.edition = false;
+          $mode.validation = {message: "", status: true};
+          return true;
         };
 
         $scope.next = function () {

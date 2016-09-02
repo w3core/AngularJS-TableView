@@ -18,16 +18,19 @@
 
     <script type="text/javascript" src="random.name.js"></script>
     <script type="text/javascript" src="script.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    
   </head>
 
   <body ng-controller="Ctrl">
-    <h1>AngularJS TableView</h1>
+    <h1 class="logo">AngularJS TableView</h1>
+    <p>GitHub: <a href="https://github.com/w3core/AngularJS-TableView" target="_blank">https://github.com/w3core/AngularJS-TableView</a></p>
 
     <h3>Minimal example (see: $scope.tableviewOptionsMinimal)</h3>
     <div tableview="tableviewOptionsMinimal"></div>
-
+    
     <h3>Complete example (see: $scope.tableviewOptions)</h3>
-
+    
     <!-- Custom template for ID body cell -->
     <script type="text/ng-template" id="Ctrl.body.cell.id">
       <a href='#' ng-click='$scope.myFn($row)'>{{$cell}}</a>

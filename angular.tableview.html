@@ -19,11 +19,31 @@
     ng-click="onSelectPageRows($event)"
   /><i class="ui-checkbox"></i></label>
 </script>
+
 <script type="text/ng-template" id="tableview.body.cell.select">
   <label><input type="checkbox" class="hidden" ng-checked="isRowSelected($row)" ng-click="switchRowSelection($row)" /><i class="ui-checkbox"></i></label>
 </script>
 
-<script type="text/ng-template" id="tableview.body.cell">{{$cell}}</script>
+<script type="text/ng-template" id="tableview.body.cell">{{$row[$column.field]}}</script>
+
+<script type="text/ng-template" id="tableview.body.cell.edit">
+  <input
+    ng-if="!$column.editable.type || $column.editable.type == 'text'"
+    ng-model="$mode.value"
+    ng-change="validate($index, $row, $mode)"
+    ng-blur="edition($index, $row, $mode)"
+    tableview-autofocus
+    type="text"
+  />
+  <textarea
+    ng-if="$column.editable.type == 'textarea'"
+    ng-model="$mode.value"
+    ng-change="validate($index, $row, $mode)"
+    ng-blur="edition($index, $row, $mode)"
+    tableview-autofocus
+  ></textarea>
+  <span class="message" ng-if="$mode.validation.message">{{$mode.validation.message}}</span>
+</script>
 
 <script type="text/ng-template" id="tableview.pager">
   <div class="limit" ng-include="tableview.template['pager.limit'] || 'tableview.pager.limit'"></div>
@@ -42,6 +62,7 @@
   </span>
   <button class="prev" ng-click="prev()" ng-disabled="tableview.request.page < 2">Prev</button><button class="next" ng-click="next()" ng-disabled="tableview.request.page >= tableview.pages">Next</button>
 </script>
+
 <div class="holder" ng-class="{'scrollable': !!tableview.scrollable}" ng-style="tableview.scrollable">
   <table>
     <thead>
@@ -68,7 +89,8 @@
               'sortable':$column.sortable && $column.field,
               'sortable-asc':$column.sorting == 'ASC',
               'sortable-desc':$column.sorting == 'DESC',
-              'filterable':$column.filterable
+              'filterable':$column.filterable && $column.field,
+              'editable':$column.editable && $column.field
             }"
             ng-click="switchSort($column.field)"
         ></th>
@@ -84,11 +106,22 @@
             "
         ></td>
         <td ng-repeat="$column in tableview.columns"
-            ng-init="$cell = $row[$column.field]"
+            ng-init="
+              $cell = $row[$column.field];
+              $mode={edition:false, value:$cell};
+            "
+            ng-click="$mode.edition=$column.editable?true:false"
             ng-include="
-              $column.template['body.cell']
-              || tableview.template['body.cell']
-              || 'tableview.body.cell'
+              $mode.edition ? (
+                 $column.template['body.cell.edit']
+             || tableview.template['body.cell.edit']
+             || 'tableview.body.cell.edit'
+              )
+              : (
+                $column.template['body.cell']
+                || tableview.template['body.cell']
+                || 'tableview.body.cell'
+              )
             "
             class="{{
               $column.name ? 'column-'+$column.name : ''
@@ -99,7 +132,10 @@
               'sortable':$column.sortable && $column.field,
               'sortable-asc':$column.sorting == 'ASC',
               'sortable-desc':$column.sorting == 'DESC',
-              'filterable':$column.filterable
+              'filterable':$column.filterable && $column.field,
+              'editable':$column.editable && $column.field,
+              'edition':$mode.edition,
+              'invalid':$mode.validation && !$mode.validation.status
             }"
         ></td>
       </tr>

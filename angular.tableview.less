@@ -20,10 +20,8 @@
   border: 1px solid @border-color;
   :focus {outline: 0 none;}
   ::-moz-focus-inner {border: 0;}
-  & > .scrollable {
-    overflow-y: scroll;
-    margin-right: -15px;
-    max-height: 400px;
+
+  #scrollable() {
     &::-webkit-scrollbar {
       width: 15px;
       height: 15px;
@@ -35,7 +33,6 @@
       background-clip: padding-box;
     }
     &:hover::-webkit-scrollbar-thumb {
-      min-height: 40px;
       border: 5px solid transparent;
       background: rgba(0, 0, 0, .1);
       background-clip: padding-box;
@@ -45,6 +42,12 @@
     &::-webkit-scrollbar-thumb:horizontal:active,
     &::-webkit-scrollbar-thumb:vertical:active{background-color: #31a0e7;}
     &::-webkit-scrollbar-corner {background: transparent}
+  }
+  & > .scrollable {
+    overflow-y: scroll;
+    margin-right: -15px;
+    max-height: 400px;
+    #scrollable();
   }
   & > .holder {
     display: block;
@@ -60,6 +63,7 @@
       vertical-align: top;
     }
     & > * > tr > * {
+      position: relative;
       padding: @padding-v @padding-h;
       &:first-child {padding-left: @padding-side;}
       &:last-child {padding-right: @padding-side;}
@@ -71,7 +75,7 @@
       vertical-align: middle;
       background-color: @bg-header;
       & > span {vertical-align: middle;}
-      &.selectable {width: 5em;}
+      &.selectable {width: 3em;}
       &.filterable {
         & > input {
           display: block;
@@ -134,6 +138,56 @@
         &.selected {background-color: #ffd;}
         &:not(:first-child) {border-top: 1px solid @border-color;}
         &:hover {background: @bg-row-hover; transition: background .2s;}
+        & > .editable {
+          &.edition {
+            & > input,
+            & > textarea {
+              font-size: 1em;
+              font-family: inherit;
+              color: inherit;
+              display: block;
+              width: 100%;
+              box-sizing: border-box;
+              padding: .3em .6em;
+              border: 0 none;
+              border-radius: .3em;
+              box-shadow: inset 0 0 .4em;
+              background: rgba(0, 0, 0, .05);
+            }
+            & > textarea {overflow: auto; #scrollable();}
+            & > .message {
+              display: block;
+              position: absolute;
+              box-sizing: border-box;
+              bottom: 100%;
+              left: 50%;
+              transform: translateX(-50%);
+              white-space: nowrap;
+              border-radius: .4em;
+              padding: .6em .8em;
+              color: #fff;
+              box-shadow: 0 0 1em rgba(0,0,0,.3);
+              background: #4cae4c;
+              &:after {
+                content: "";
+                position: absolute;
+                box-sizing: border-box;
+                top: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                border-left: .5em solid transparent;
+                border-right: .5em solid transparent;
+                border-top: .7em solid #4cae4c;
+              }
+            }
+            &.invalid > .message {
+              background: #d9534f;
+              &:after {
+                border-top-color: #d9534f;
+              }
+            }
+          }
+        }
       }
     }
   }

@@ -17,10 +17,11 @@ app.controller("Ctrl", function ($scope) {
     template: {
       "head.cell": null,
       "body.cell": null,
+      "body.cell.edit": null,
       "foot": null,
       "pager": null,
       "pager.limit": null,
-      "pager.controls": null
+      "pager.controls": null,
     },
     columns: [
       {
@@ -36,9 +37,19 @@ app.controller("Ctrl", function ($scope) {
           "foot.cell": null,
         },
       },
-      {field:"name", title:"User Name", sortable:true, filterable:true},
-      {field:"email", title:"E-Mail", sortable:true, filterable:true, placeholder:"Filter by email..."},
-      {title:"Manage", template:{"body.cell":"Ctrl.body.cell.manage"}}
+      {
+        field:"name",
+        title:"User Name",
+        sortable:true,
+        filterable:true,
+        editable: {
+          type: "textarea", // text|textarea Default: text
+          validate: fieldValidator,
+          change: saveValidChangedField
+        }
+      },
+      {field:"email", title:"E-Mail", sortable:true, filterable:true, editable:true, placeholder:"Filter by email..."},
+      {name:"manage",title:"Manage", template:{"body.cell":"Ctrl.body.cell.manage"}}
     ],
     provider: dataProvider,
     request: request,
@@ -50,6 +61,25 @@ app.controller("Ctrl", function ($scope) {
     limits: [10, 25, 50, 100],
     debug:true
   };
+
+  function fieldValidator (column, row, field, value) {
+    var status = typeof value == "string" && value.trim().length;
+    return {
+      message: status ? "" : "The field '" + column.title + "' can not be empty",
+      status: status
+    };
+  }
+
+  function saveValidChangedField (column, row, field, value) {
+    console.log (
+      arguments.callee.name + "(column, row, field, value) =>",
+      field,
+      "=",
+      value,
+      column,
+      row
+    );
+  }
 
   $scope.tableviewOptionsMinimal = {
     columns: [
@@ -67,8 +97,7 @@ app.controller("Ctrl", function ($scope) {
   var amount = 1234;
   var db = [];
   for (var i=1; i<=amount; i++) {
-    var name = randomname();
-    //if (i%2) name += " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut viverra sit amet elit at euismod. Mauris vulputate a enim eget eleifend. In quis enim a diam elementum interdum. Donec sagittis erat ac aliquet egestas. Fusce viverra ut odio eget vulputate. Mauris id ex orci. Donec justo ipsum, congue sit amet magna a, tincidunt iaculis urna. Donec lacus odio, mattis in ornare sit amet, feugiat ut dolor. Duis aliquam a urna vitae bibendum. Integer rhoncus tortor nisl, ut faucibus ligula blandit quis.";
+    var name = randomname().trim();
     db.push({
       "id":i,
       name: name,
