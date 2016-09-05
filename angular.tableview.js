@@ -48,6 +48,10 @@ angular
 
         $scope.tableview.limits = $scope.tableview.limits || [10, 25, 50, 100];
 
+        if (navigator.userAgent.toLowerCase().indexOf("mobile") > 0) {
+          $element.addClass("-mobile-");
+        }
+
         function updateOptions () {
           $scope.tableview.selection = $scope.tableview.selection || [];
           $scope.tableview.request = $scope.tableview.request || {};
