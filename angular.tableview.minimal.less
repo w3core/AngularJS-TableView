@@ -1,0 +1,62 @@
+[tableview] {
+  :focus {outline: 0 none;}
+  ::-moz-focus-inner {border: 0;}
+  position: relative;
+  & > .holder {
+    display: block;
+    position: relative;
+    &.scrollable {
+      overflow-y: auto;
+      overflow-x: hidden;
+      max-height: 25em;
+    }
+    & > table {
+      width: 100%;
+      border-spacing: 0;
+      border-collapse: collapse;
+      text-align: left;
+      & > * > tr > * {position: relative;}
+      & > * > tr > :last-child {text-align: right; padding-right: 0;}
+      & > thead > tr > *.filterable input {
+        display: block;
+      }
+      & > thead > tr > *.sortable {
+        cursor: pointer;
+        & > .sort {
+          font-size: .5em;
+          width: .7em;
+          margin: -.1em 1em 0 1em;
+          display: inline-block;
+          &:before, &:after {
+            content: "";
+            display: block;
+            vertical-align: middle;
+            width: 0;
+            height: 0;
+            line-height: 0;
+            margin: 0 0 .1em;
+          }
+          &:before {
+            border-left: .5em solid transparent;
+            border-right: .5em solid transparent;
+            border-bottom: .7em solid rgba(0,0,0,.5);
+          }
+          &:after {
+            border-left: .5em solid transparent;
+            border-right: .5em solid transparent;
+            border-top: .7em solid rgba(0,0,0,.5);
+          }
+        }
+        &.sortable-asc > .sort:after {display:none;}
+        &.sortable-desc > .sort:before {display:none;}
+      }
+    }
+  }
+  pager {
+    display: table;
+    position: relative;
+    width: 100%;
+    & > .limit {display: table-cell;}
+    & > .controls {display: table-cell; text-align: right;}
+  }
+}
