@@ -1,0 +1,147 @@
+<script type="text/ng-template" id="tableview.head.cell">
+  <span>{{$column.title}}</span>
+  <span ng-if="$column.sortable && $column.field" class="sort"></span>
+  <input ng-if="$column.filterable && $column.field"
+         ng-model="tableview.request.like[$column.field]"
+         placeholder="{{$column.placeholder || 'Search...'}}"
+         ng-click="$event.stopPropagation();"
+         ng-change="like($index)"
+         type="text"
+         required
+  />
+</script>
+
+<script type="text/ng-template" id="tableview.head.cell.select">
+  <label><input
+    type="checkbox"
+    class="hidden"
+    ng-checked="isRowsSelected()"
+    ng-click="onSelectPageRows($event)"
+  /><i class="ui-checkbox"></i></label>
+</script>
+
+<script type="text/ng-template" id="tableview.body.cell.select">
+  <label><input type="checkbox" class="hidden" ng-checked="isRowSelected($row)" ng-click="switchRowSelection($row)" /><i class="ui-checkbox"></i></label>
+</script>
+
+<script type="text/ng-template" id="tableview.body.cell">{{$row[$column.field]}}</script>
+
+<script type="text/ng-template" id="tableview.body.cell.edit">
+  <input
+    ng-if="!$column.editable.type || $column.editable.type == 'text'"
+    ng-model="$mode.value"
+    ng-change="validate($index, $row, $mode)"
+    ng-blur="edition($index, $row, $mode)"
+    tableview-autofocus
+    type="text"
+  />
+  <textarea
+    ng-if="$column.editable.type == 'textarea'"
+    ng-model="$mode.value"
+    ng-change="validate($index, $row, $mode)"
+    ng-blur="edition($index, $row, $mode)"
+    tableview-autofocus
+  ></textarea>
+  <span class="message" ng-if="$mode.validation.message">{{$mode.validation.message}}</span>
+</script>
+
+<script type="text/ng-template" id="tableview.pager">
+  <div class="limit" ng-include="tableview.template['pager.limit'] || 'tableview.pager.limit'"></div>
+  <div class="controls" ng-include="tableview.template['pager.controls'] || 'tableview.pager.controls'"></div>
+</script>
+
+<script type="text/ng-template" id="tableview.pager.limit">
+  <select ng-model="tableview.request.limit" ng-options="o as o for o in tableview.limits" ng-change="limit()">
+  </select>
+</script>
+
+<script type="text/ng-template" id="tableview.pager.controls">
+  <ng-init></ng-init>
+  <span class="pageOf">
+    Page {{tableview.request.page}} of {{tableview.pages}}
+  </span>
+  <button class="prev" ng-click="prev()" ng-disabled="tableview.request.page < 2">Prev</button><button class="next" ng-click="next()" ng-disabled="tableview.request.page >= tableview.pages">Next</button>
+</script>
+
+<div class="holder" ng-class="{'scrollable': !!tableview.scrollable}" ng-style="tableview.scrollable">
+  <table>
+    <thead>
+      <tr>
+        <th ng-if="tableview.selectableBy"
+            class="selectable"
+            ng-include="
+              tableview.template['head.cell.select']
+              || 'tableview.head.cell.select'
+            "
+        ></th>
+        <th ng-repeat="$column in tableview.columns"
+            ng-include="
+              $column.template['head.cell']
+              || tableview.template['head.cell']
+              || 'tableview.head.cell'
+            "
+            class="{{
+              $column.name ? 'column-'+$column.name : ''
+              }} {{
+              $column.field ? 'column-'+$column.field : ''
+            }}"
+            ng-class="{
+              'sortable':$column.sortable && $column.field,
+              'sortable-asc':$column.sorting == 'ASC',
+              'sortable-desc':$column.sorting == 'DESC',
+              'filterable':$column.filterable && $column.field,
+              'editable':$column.editable && $column.field
+            }"
+            ng-click="switchSort($column.field)"
+        ></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="$row in tableview.rows" ng-if="$index < tableview.request.limit" ng-class="{'selected': tableview.selectableBy && isRowSelected($row)}">
+        <td ng-if="tableview.selectableBy"
+            class="selectable"
+            ng-include="
+              tableview.template['body.cell.select']
+              || 'tableview.body.cell.select'
+            "
+        ></td>
+        <td ng-repeat="$column in tableview.columns"
+            ng-init="
+              $cell = $row[$column.field];
+              $mode={edition:false, value:$cell};
+            "
+            ng-click="$mode.edition=$column.editable?true:false"
+            ng-include="
+              $mode.edition ? (
+                 $column.template['body.cell.edit']
+             || tableview.template['body.cell.edit']
+             || 'tableview.body.cell.edit'
+              )
+              : (
+                $column.template['body.cell']
+                || tableview.template['body.cell']
+                || 'tableview.body.cell'
+              )
+            "
+            class="{{
+              $column.name ? 'column-'+$column.name : ''
+              }} {{
+              $column.field ? 'column-'+$column.field : ''
+            }}"
+            ng-class="{
+              'sortable':$column.sortable && $column.field,
+              'sortable-asc':$column.sorting == 'ASC',
+              'sortable-desc':$column.sorting == 'DESC',
+              'filterable':$column.filterable && $column.field,
+              'editable':$column.editable && $column.field,
+              'edition':$mode.edition,
+              'invalid':$mode.validation && !$mode.validation.status
+            }"
+        ></td>
+      </tr>
+    </tbody>
+    <tfoot ng-if="tableview.template.foot" ng-include="tableview.template.foot"></tfoot>
+  </table>
+</div>
+<pager ng-include="tableview.template['pager'] || 'tableview.pager'"></pager>
+<pre ng-if="tableview.debug">{{tableview | json}}</pre>

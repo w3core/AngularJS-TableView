@@ -1,0 +1,36 @@
+{
+  "name": "angular.tableview",
+  "description": "AngularJS TableView",
+  "version": "1.0.0",
+  "license": "MIT",
+  "homepage": "https://github.com/w3core/AngularJS-TableView",
+  "author": "Max Chuhryaev <w3core@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/w3core/AngularJS-TableView.git"
+  },
+  "bugs": {
+    "url": "https://github.com/w3core/AngularJS-TableView/issues/"
+  },
+  "keywords": [
+    "tableview",
+    "grid",
+    "sort",
+    "multisort",
+    "filter",
+    "select",
+    "edit",
+    "validation",
+    "template",
+    "custom",
+    "fluid",
+    "angular",
+    "ui"
+  ],
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-less": "^1.4.0"
+   }
+}

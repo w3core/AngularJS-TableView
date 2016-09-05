@@ -21,7 +21,6 @@ A data grid for [AngularJS].
 ![Example](https://raw.githubusercontent.com/w3core/AngularJS-TableView/master/example/example.gif)
 
 ## Table of contents
-
 1. [Quick Start](#start)
  * [Integration](#start)
  * [Directive attributes](#attributes)
@@ -42,12 +41,26 @@ A data grid for [AngularJS].
 **Dependencies**
 * No dependencies
 
+### Downloading TableView using npm
+
+AngularJS TableView is registered as a package on npm. You can install the latest version of TableView with the command:
+```
+npm install angular.tableview
+```
+This will install TableView in the `node_modules` directory. Within `node_modules/angular.tableview/dist/` you will find a compressed release files.
+
+### Downloading TableView using Bower
+AngularJS TableView is also registered as a package with Bower. You can install the latest version of TableView with the command:
+```
+bower install angular.tableview
+```
+This will install TableView to Bower's install directory, the default being `bower_components`. Within `bower_components/angular.tableview/dist/` you will find a compressed release files.
+
 Make sure to embed it in your HTML document:
 ```html
-<script src="path/to/angular.js"></script>
-<script src="path/to/angular.tableview.js"></script>
-<!-- You can compile "angular.tableview.less" if you need. -->
-<script src="path/to/your/tableview.css"></script>
+<script src="path/to/angular.min.js"></script>
+<script src="path/to/dist/angular.tableview.min.js"></script>
+<link href="path/to/dist/angular.tableview.min.css" rel="stylesheet" />
 ```
 
 Turn on `tableview` module in the your awesome `application`:
