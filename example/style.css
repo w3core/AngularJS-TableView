@@ -29,7 +29,6 @@ body {margin:15px 0 0 15px}
   text-overflow: ellipsis;
 }
 [tableview] .selectable > label {cursor: pointer;}
-[tableview] tbody tr.selected {background-color: #ffd;}
 [tableview] .selectable {width: 3em;}
 [tableview] .column-id {width: 4em;}
 [tableview] .column-description {width: 30%;}

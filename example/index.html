@@ -10,18 +10,24 @@
     <meta content="application/xhtml+xml; charset=utf-8" http-equiv="content-type" />
 
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+
+    <!-- Development -->
+    <!--
+    <link rel="stylesheet/less" type="text/css" href="../angular.tableview.less" />
+    <link rel="stylesheet/less" type="text/css" href="../angular.tableview.material.less" />
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
+    <script type="text/javascript" src="../angular.tableview.js"></script>
+    -->
+
+    <!-- Production -->
     <link rel="stylesheet" type="text/css" href="../dist/angular.tableview.min.css" />
+    <link rel="stylesheet" type="text/css" href="../dist/angular.tableview.material.min.css" />
     <script type="text/javascript" src="../dist/angular.tableview.min.js"></script>
-<!--<link rel="stylesheet/less" type="text/css" href="../angular.tableview.less" />-->
-<!--<script type="text/javascript" src="../angular.tableview.js"></script>-->
 
     <script type="text/javascript" src="//rawgit.com/LeaVerou/prefixfree/gh-pages/prefixfree.min.js"></script>
-<!--<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>-->
-
     <script type="text/javascript" src="random.name.js"></script>
     <script type="text/javascript" src="script.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css" />
-    
   </head>
 
   <body ng-controller="Ctrl">
@@ -43,6 +49,6 @@
       <button ng-click='$scope.myFn($row)'>Edit</button>
     </script>
 
-    <div tableview="tableviewOptions" tableview-template-url=""></div>
+    <div tableview="tableviewOptions" tableview-template-url="" class="theme-material"></div>
   </body>
 </html>

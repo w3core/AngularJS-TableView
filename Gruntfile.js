@@ -33,7 +33,7 @@ module.exports = function (grunt) {
         },
         files: {
           "dist/angular.tableview.min.css": "angular.tableview.less",
-          "dist/angular.tableview.minimal.min.css": "angular.tableview.minimal.less"
+          "dist/angular.tableview.material.min.css": "angular.tableview.material.less"
         }
       }
     }

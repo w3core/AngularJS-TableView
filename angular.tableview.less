@@ -1,108 +1,26 @@
-@font-size: .875em; //14px
-@font-size-pager: .714286em; //10px
-@padding-h: .35715em; //5px
-@padding-v: .71428em; //10px
-@padding-side: 2.142857em; //30px
-
-@color: #364c5d;
-@color-pager: #8e9aa3;
-@border-color: #e9e9e9;
-@bg-header: #eef9ff;
-@bg-row-hover: #f5f5f5;
-@bg-pager: #e6e6e6;
-
 [tableview] {
-  display: inline-block;
-  position: relative;
-  font-family: sans-serif;
-  font-size: @font-size;
-  color: @color;
-  border: 1px solid @border-color;
   :focus {outline: 0 none;}
   ::-moz-focus-inner {border: 0;}
-
-  #scrollable() {
-    &::-webkit-scrollbar {
-      width: 15px;
-      height: 15px;
-    }
-    &::-webkit-scrollbar-thumb {
-      border: 3px solid transparent;
-      border-radius: 7px;
-      background: rgba(0, 0, 0, 0);
-      background-clip: padding-box;
-    }
-    &:hover::-webkit-scrollbar-thumb {
-      border: 5px solid transparent;
-      background: rgba(0, 0, 0, .1);
-      background-clip: padding-box;
-    }
-    &::-webkit-scrollbar-thumb:horizontal:hover,
-    &::-webkit-scrollbar-thumb:vertical:hover {background-color: rgba(0,0,0,.2)}
-    &::-webkit-scrollbar-thumb:horizontal:active,
-    &::-webkit-scrollbar-thumb:vertical:active{background-color: #31a0e7;}
-    &::-webkit-scrollbar-corner {background: transparent}
-  }
-  & > .scrollable {
-    overflow-y: scroll;
-    margin-right: -15px;
-    max-height: 400px;
-    #scrollable();
-  }
+  position: relative;
   & > .holder {
     display: block;
     position: relative;
-  }
-  & > .holder > table {
-    width: 100%;
-    border-spacing: 0;
-    border-collapse: collapse;
-    /*table-layout: fixed;*/
-    & th, & td {
+    &.scrollable {
+      overflow-y: auto;
+      overflow-x: hidden;
+      max-height: 25em;
+    }
+    & > table {
+      width: 100%;
+      border-spacing: 0;
+      border-collapse: collapse;
       text-align: left;
-      vertical-align: top;
-    }
-    & > * > tr > * {
-      position: relative;
-      padding: @padding-v @padding-h;
-      &:first-child {padding-left: @padding-side;}
-      &:last-child {padding-right: @padding-side;}
-    }
-    & > thead > tr > * {
-      font-weight: bold;
-      white-space: nowrap;
-      text-transform: uppercase;
-      vertical-align: middle;
-      background-color: @bg-header;
-      & > span {vertical-align: middle;}
-      &.selectable {width: 3em;}
-      &.filterable {
-        & > input {
-          display: block;
-          box-sizing: border-box;
-          font-size: 1em;
-          width: 100%;
-          margin-top: @padding-v/2;
-          background: transparent;
-          border-radius: 0;
-          border: 0 none;
-          border-top: 1px solid #ddd;
-          padding: @padding-v/2 0 0;
-          outline: 0 none;
-          color: #31a0e7;
-          &:hover::-webkit-input-placeholder {opacity: 1; color: #31a0e7;}
-          &:focus::-webkit-input-placeholder {opacity: 1; color: #31a0e7;}
-          &:hover::-moz-placeholder          {opacity: 1; color: #31a0e7;}
-          &:focus::-moz-placeholder          {opacity: 1; color: #31a0e7;}
-          &:hover:-ms-input-placeholder      {opacity: 1; color: #31a0e7;}
-          &:focus:-ms-input-placeholder      {opacity: 1; color: #31a0e7;}
-          &:hover, &:focus, &:valid {
-            box-shadow: none;
-            border-color: #31a0e7;
-          }
-        }
+      & > * > tr > * {position: relative;}
+      & > * > tr > :last-child {text-align: right; padding-right: 0;}
+      & > thead > tr > *.filterable input {
+        display: block;
       }
-      &.sortable {
+      & > thead > tr > *.sortable {
         cursor: pointer;
         & > .sort {
           font-size: .5em;
@@ -121,168 +39,46 @@
           &:before {
             border-left: .5em solid transparent;
             border-right: .5em solid transparent;
-            border-bottom: .7em solid @color;
+            border-bottom: .7em solid rgba(0,0,0,.5);
           }
           &:after {
             border-left: .5em solid transparent;
             border-right: .5em solid transparent;
-            border-top: .7em solid @color;
+            border-top: .7em solid rgba(0,0,0,.5);
           }
         }
         &.sortable-asc > .sort:after {display:none;}
         &.sortable-desc > .sort:before {display:none;}
       }
-    }
-    & > tbody {
-      &  > tr {
-        &.selected {background-color: #ffd;}
-        &:not(:first-child) {border-top: 1px solid @border-color;}
-        &:hover {background: @bg-row-hover; transition: background .2s;}
-        & > .editable {
-          &.edition {
-            & > input,
-            & > textarea {
-              font-size: 1em;
-              font-family: inherit;
-              color: inherit;
-              display: block;
-              width: 100%;
-              box-sizing: border-box;
-              padding: .3em .6em;
-              border: 0 none;
-              border-radius: .3em;
-              box-shadow: inset 0 0 .4em;
-              background: rgba(0, 0, 0, .05);
-            }
-            & > textarea {overflow: auto; #scrollable();}
-            & > .message {
-              display: block;
-              position: absolute;
-              box-sizing: border-box;
-              bottom: 100%;
-              left: 50%;
-              transform: translateX(-50%);
-              white-space: nowrap;
-              border-radius: .4em;
-              padding: .6em .8em;
-              color: #fff;
-              box-shadow: 0 0 1em rgba(0,0,0,.3);
-              background: #4cae4c;
-              &:after {
-                content: "";
-                position: absolute;
-                box-sizing: border-box;
-                top: 100%;
-                left: 50%;
-                transform: translateX(-50%);
-                border-left: .5em solid transparent;
-                border-right: .5em solid transparent;
-                border-top: .7em solid #4cae4c;
-              }
-            }
-            &.invalid > .message {
-              background: #d9534f;
-              &:after {
-                border-top-color: #d9534f;
-              }
-            }
-          }
+      & > tbody > tr > .editable.edition > .message:not(:empty) {
+        display: inline-block;
+        min-width: .8em;
+        min-height: 1em;
+        position: absolute;
+        left: 0;
+        bottom: 100%;
+        padding: .3em .6em;
+        margin-bottom: .7em;
+        border-radius: .3em;
+        color: #fff;
+        background: rgba(0,0,0,.7);
+        &:after {
+          content: "";
+          position: absolute;
+          top: 100%;
+          left: .5em;
+          border-left: .5em solid transparent;
+          border-right: .5em solid transparent;
+          border-top: .7em solid rgba(0,0,0,.7);
         }
       }
     }
   }
-  & > pager {
-    &, * {vertical-align: middle;}
-    display: block;
-    padding: @padding-v @padding-side;
-    background-color: @bg-pager;
-    color: @color-pager;
-    text-shadow: 1px 1px 1px #fff;
-    font-weight: bold;
-    text-transform: uppercase;
-    user-select: none;
-    &:after {
-      content:"";
-      display:block;
-      position:relative;
-      height:0;
-      margin:0;
-      padding:0;
-      overflow:hidden;
-      float:none;
-      clear:both;
-    }
-    & > .limit {float:left;}
-    & > .controls {float:right;}
-    & > .limit {
-      &:before {
-        content: "Per page";
-        font-size: .7em;
-        margin-right: .5em;
-      }
-      & > select {
-        font-size: 1em;
-        background: #fff;
-        border: 1px solid #ccc;
-        border-radius: .22em;
-        height: 1.72em;
-        padding: 0 0 0 .3em;
-        color: @color;
-        outline: 0 none;
-        cursor: pointer;
-        &:hover, &:focus {
-          background: #fafafa;
-          box-shadow: none;
-        }
-      }
-    }
-    & > .controls {
-      & > .pageOf {
-        font-size: .7em;
-        margin-right: 1em;
-      }
-      & > button {
-        font-size: 1em;
-        position: relative;
-        background: #fff;
-        border: 1px solid #ccc;
-        outline: 0 none;
-        padding: 0;
-        vertical-align: middle;
-        width: 2.64em;
-        height: 1.72em;
-        overflow: hidden;
-        color: transparent;
-        cursor: pointer;
-        &:before {
-          content: "<";
-          color: #bbb;
-          position: absolute;
-          left: 0;
-          right: 0;
-          text-align: center;
-          font-weight: bold;
-        }
-        &.prev {
-          border-top-left-radius: .22em;
-          border-bottom-left-radius: .22em;
-          margin-right:-1px;
-        }
-        &.next {
-          border-top-right-radius: .22em;
-          border-bottom-right-radius: .22em;
-        }
-        &.next:before {
-          content: ">";
-        }
-        &:disabled {
-          cursor: default;
-          background: @bg-pager;
-        }
-        &:not(:disabled):hover {
-          background: #fafafa;
-        }
-      }
-    }
+  pager {
+    display: table;
+    position: relative;
+    width: 100%;
+    & > .limit {display: table-cell;}
+    & > .controls {display: table-cell; text-align: right;}
   }
 }
