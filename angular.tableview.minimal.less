@@ -50,6 +50,28 @@
         &.sortable-asc > .sort:after {display:none;}
         &.sortable-desc > .sort:before {display:none;}
       }
+      & > tbody > tr > .editable.edition > .message:not(:empty) {
+        display: inline-block;
+        min-width: .8em;
+        min-height: 1em;
+        position: absolute;
+        left: 0;
+        bottom: 100%;
+        padding: .3em .6em;
+        margin-bottom: .7em;
+        border-radius: .3em;
+        color: #fff;
+        background: rgba(0,0,0,.7);
+        &:after {
+          content: "";
+          position: absolute;
+          top: 100%;
+          left: .5em;
+          border-left: .5em solid transparent;
+          border-right: .5em solid transparent;
+          border-top: .7em solid rgba(0,0,0,.7);
+        }
+      }
     }
   }
   pager {
