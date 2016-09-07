@@ -6,6 +6,8 @@
 [AngularJS]: https://angularjs.org/
 [ng-template]: https://docs.angularjs.org/api/ng/directive/script
 [example]: https://plnkr.co/edit/d10SwC?p=preview
+[npm]: https://www.npmjs.com/package/angular.tableview
+[Bower]: https://bower.io/search/?q=angular.tableview
 
 [request]: #request
 [response]: #response
@@ -42,16 +44,16 @@ A data grid for [AngularJS].
 **Dependencies**
 * No dependencies
 
-### Downloading TableView using npm
+### Downloading TableView using [npm]
 
-AngularJS TableView is registered as a package on npm. You can install the latest version of TableView with the command:
+AngularJS TableView is registered as a package on [npm]. You can install the latest version of TableView with the command:
 ```
 npm install angular.tableview
 ```
 This will install TableView in the `node_modules` directory. Within `node_modules/angular.tableview/dist/` you will find a compressed release files.
 
-### Downloading TableView using Bower
-AngularJS TableView is also registered as a package with Bower. You can install the latest version of TableView with the command:
+### Downloading TableView using [Bower]
+AngularJS TableView is also registered as a package with [Bower]. You can install the latest version of TableView with the command:
 ```
 bower install angular.tableview
 ```
