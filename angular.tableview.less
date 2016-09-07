@@ -5,7 +5,7 @@
   & > .holder {
     display: block;
     position: relative;
-    &.scrollable {
+    &.scroller {
       overflow-y: auto;
       overflow-x: hidden;
       max-height: 25em;
@@ -16,7 +16,7 @@
       border-collapse: collapse;
       text-align: left;
       & > * > tr > * {position: relative;}
-      & > * > tr > :last-child {text-align: right; padding-right: 0;}
+      & > * > tr > :last-child {text-align: right;}
       & > thead > tr > *.filterable input {
         display: block;
       }
@@ -78,7 +78,8 @@
     display: table;
     position: relative;
     width: 100%;
-    & > .limit {display: table-cell;}
-    & > .controls {display: table-cell; text-align: right;}
+    & > * {display: table-cell;}
+    & > .limit {}
+    & > .controls {text-align: right;}
   }
 }

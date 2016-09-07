@@ -46,39 +46,42 @@
 </script>
 
 <script type="text/ng-template" id="tableview.pager">
-  <div class="limit" ng-include="tableview.template['pager.limit'] || 'tableview.pager.limit'"></div>
-  <div class="controls" ng-include="tableview.template['pager.controls'] || 'tableview.pager.controls'"></div>
+  <div class="limit" ng-include="templateName('pager.limit') || themeTemplateName('pager.limit') || defaultTemplateName('pager.limit')"></div>
+  <div class="selection" ng-include="templateName('pager.selection') || themeTemplateName('pager.selection') || defaultTemplateName('pager.selection')" ng-if="tableview.selection.length"></div>
+  <div class="controls" ng-include="templateName('pager.controls') || themeTemplateName('pager.controls') || defaultTemplateName('pager.controls')"></div>
 </script>
 
 <script type="text/ng-template" id="tableview.pager.limit">
-  <select ng-model="tableview.request.limit" ng-options="o as o for o in tableview.limits" ng-change="limit()">
-  </select>
+  <select ng-model="tableview.request.limit" ng-options="o as o for o in tableview.limits" ng-change="limit()"></select>
+</script>
+
+<script type="text/ng-template" id="tableview.pager.selection">
+  <span class="selected">Selected {{tableview.selection.length}} entries</span>
+  <button class="deselect" ng-click="tableview.selection = []" title="Deselect all">&times;</button>
 </script>
 
 <script type="text/ng-template" id="tableview.pager.controls">
-  <ng-init></ng-init>
-  <span class="pageOf">
-    Page {{tableview.request.page}} of {{tableview.pages}}
-  </span>
+  <span class="pageOf">Page {{tableview.request.page}} of {{tableview.pages}}</span>
   <button class="prev" ng-click="prev()" ng-disabled="tableview.request.page < 2">Prev</button><button class="next" ng-click="next()" ng-disabled="tableview.request.page >= tableview.pages">Next</button>
 </script>
 
-<div class="holder" ng-class="{'scrollable': !!tableview.scrollable}" ng-style="tableview.scrollable">
+<div class="holder" ng-class="{'scroller': !!tableview.scrollable}" ng-style="tableview.scrollable">
   <table>
     <thead>
       <tr>
         <th ng-if="tableview.selectableBy"
             class="selectable"
             ng-include="
-              tableview.template['head.cell.select']
-              || 'tableview.head.cell.select'
+              templateName('head.cell.select')
+              || themeTemplateName('head.cell.select')
+              || defaultTemplateName('head.cell.select')
             "
         ></th>
         <th ng-repeat="$column in tableview.columns"
             ng-include="
-              $column.template['head.cell']
-              || tableview.template['head.cell']
-              || 'tableview.head.cell'
+              templateName('head.cell', $index)
+              || themeTemplateName('head.cell')
+              || defaultTemplateName('head.cell')
             "
             class="{{
               $column.name ? 'column-'+$column.name : ''
@@ -101,8 +104,9 @@
         <td ng-if="tableview.selectableBy"
             class="selectable"
             ng-include="
-              tableview.template['body.cell.select']
-              || 'tableview.body.cell.select'
+              templateName('body.cell.select')
+              || themeTemplateName('body.cell.select')
+              || defaultTemplateName('body.cell.select')
             "
         ></td>
         <td ng-repeat="$column in tableview.columns"
@@ -113,14 +117,14 @@
             ng-click="$mode.edition=$column.editable?true:false"
             ng-include="
               $mode.edition ? (
-                 $column.template['body.cell.edit']
-             || tableview.template['body.cell.edit']
-             || 'tableview.body.cell.edit'
+                 templateName('body.cell.edit', $index)
+                 || themeTemplateName('body.cell.edit')
+                 || defaultTemplateName('body.cell.edit')
               )
               : (
-                $column.template['body.cell']
-                || tableview.template['body.cell']
-                || 'tableview.body.cell'
+                 templateName('body.cell', $index)
+                 || themeTemplateName('body.cell')
+                 || defaultTemplateName('body.cell')
               )
             "
             class="{{
@@ -140,8 +144,8 @@
         ></td>
       </tr>
     </tbody>
-    <tfoot ng-if="tableview.template.foot" ng-include="tableview.template.foot"></tfoot>
+    <tfoot ng-if="templateName('template.foot')" ng-include="templateName('template.foot')"></tfoot>
   </table>
 </div>
-<pager ng-include="tableview.template['pager'] || 'tableview.pager'"></pager>
+<pager ng-include="templateName('pager') || themeTemplateName('pager') || defaultTemplateName('pager')"></pager>
 <pre ng-if="tableview.debug">{{tableview | json}}</pre>

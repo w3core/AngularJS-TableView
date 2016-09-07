@@ -5,6 +5,13 @@
 */
 angular
 .module("tableview", [])
+.provider("$tableView", function(){
+  var that = this;
+  this.theme = null;
+  this.$get = function () {
+    return that;
+  };
+})
 .directive("tableviewAutofocus", function ($timeout) {
   return {
     restrict: "A",
@@ -19,8 +26,7 @@ angular
     }
   };
 })
-.directive("tableview", function($compile, $http) {
-
+.directive("tableview", function($compile, $http, $tableView) {
   var MODULE_NAME = "angular.tableview";
   var MODULE_URL = getModuleURL();
   var MODULE_TPL = MODULE_URL + MODULE_NAME + ".html";
@@ -33,24 +39,23 @@ angular
   return {
     restrict: "A",
     scope: {
-      tableview: "="
+      tableview: "=",
+      tableviewTheme: "="
     },
     templateUrl: function ($element, $attr) {
-      return $attr.tableviewTemplateUrl || MODULE_TPL;
+      return $attr.tableviewTemplateUrl  || $tableView.templateUrl || MODULE_TPL;
     },
     compile: function ($element, $attr) {
       return function ($scope, $element, $attr) {
+        $scope.$provider = $tableView;
         $scope.$scope = $scope.$parent;
         $scope.Math = Math;
         $scope.tableview.rows = [];
         $scope.tableview.amount = 0;
         $scope.tableview.pages = 1;
+        $scope.theme = "";
 
         $scope.tableview.limits = $scope.tableview.limits || [10, 25, 50, 100];
-
-        if (navigator.userAgent.toLowerCase().indexOf("mobile") > 0) {
-          $element.addClass("-mobile-");
-        }
 
         function updateOptions () {
           $scope.tableview.selection = $scope.tableview.selection || [];
@@ -59,6 +64,14 @@ angular
           $scope.tableview.request.limit = $scope.tableview.request.limit || $scope.tableview.limits[0];
           $scope.tableview.request.order = $scope.tableview.request.order || [];
           $scope.tableview.request.like = $scope.tableview.request.like || {};
+
+          
+          $scope.theme = $scope.tableviewTheme || $scope.tableview.theme || $scope.$provider.theme || "";
+          $element.attr("theme", $scope.theme);
+
+          var on = "addClass", off = "removeClass";
+          $element[/mobile|android|ip[ao]d|iphone/i.test(navigator.userAgent) ? on : off]("-mobile-");
+          $element[$scope.tableview.scrollable ? on : off]("scrollable");
         }
 
         $scope.exec = function () {
@@ -76,7 +89,7 @@ angular
             $scope.tableview.pages = Math.ceil(response.amount/(response.limit || 1));
             $scope.tableview.request.page = response.page;
             $scope.tableview.request.limit = response.limit;
-            var $node = $element[0], $scroller = $node.querySelector(".scrollable");
+            var $node = $element[0], $scroller = $node.querySelector(".holder.scroller");
             if ($scroller && $scroller.parentNode == $node) $scroller.scrollTop = 0;
           });          
         };
@@ -246,6 +259,27 @@ angular
           for (var i=0; i<$rows.length; i++) {
             $scope.switchRowSelection($rows[i], sign);
           }
+        };
+
+        $scope.templateName = function (name, $index) {
+          // column.template
+          // options.template
+          // provider.template
+          // - theme.template
+          // - default
+          var $0 = typeof $index != "undefined" && $scope.tableview.columns[$index] && $scope.tableview.columns[$index].template ? $scope.tableview.columns[$index].template : {};
+          var $1 = $scope.tableview.template && typeof $scope.tableview.template == "object" ? $scope.tableview.template : {};
+          var $2 = $scope.$provider.template && typeof $scope.$provider.template == "object" ? $scope.$provider.template : {};
+          return $0[name] || $1[name] || $2[name] || null;
+        };
+
+        $scope.themeTemplateName = function (name) {
+          return null; // TODO
+          return $scope.theme ? ["tableview", $scope.theme, name].join(".") : null;
+        };
+
+        $scope.defaultTemplateName = function (name) {
+          return ["tableview", name].join(".");
         };
 
         $scope.exec();

@@ -1,4 +1,8 @@
-var app = angular.module("app", ["tableview"]);
+var app = angular.module("app", ["tableview"]).config(function($tableViewProvider){
+  //$tableViewProvider.theme = "material";
+  //$tableViewProvider.templateUrl = "";
+  //$tableViewProvider.template = {};
+});
 app.controller("Ctrl", function ($scope) {
 
   var request = {
@@ -21,6 +25,7 @@ app.controller("Ctrl", function ($scope) {
       "foot": null,
       "pager": null,
       "pager.limit": null,
+      "pager.selection": null,
       "pager.controls": null,
     },
     columns: [
@@ -59,6 +64,7 @@ app.controller("Ctrl", function ($scope) {
     },
     multisorting: false,
     limits: [10, 25, 50, 100],
+    theme: null,
     debug:true
   };
 
@@ -127,12 +133,12 @@ app.controller("Ctrl", function ($scope) {
     }
     if (request.like.name) {
       data = data.filter(function(o){
-        return o.name && o.name.indexOf(request.like.name) > -1;
+        return o.name && o.name.toLowerCase().indexOf(request.like.name.toLowerCase()) > -1;
       });
     }
     if (request.like.email) {
       data = data.filter(function(o){
-        return o.email && o.email.indexOf(request.like.email) > -1;
+        return o.email && o.email.toLowerCase().indexOf(request.like.email.toLowerCase()) > -1;
       });
     }
     var amount = data.length;

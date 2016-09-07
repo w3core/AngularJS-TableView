@@ -28,6 +28,7 @@ A data grid for [AngularJS].
 2. [Reference API](#API)
  * [Configuration object](#configuration)
  * [Configuration example](#configuration-example)
+ * [The $tableViewProvider](#$tableViewProvider)
  * [Request object](#request)
  * [Request example](#request-example)
  * [Response object](#response)
@@ -60,7 +61,8 @@ Make sure to embed it in your HTML document:
 ```html
 <script src="path/to/angular.min.js"></script>
 <script src="path/to/dist/angular.tableview.min.js"></script>
-<link href="path/to/dist/angular.tableview.min.css" rel="stylesheet" />
+<!-- Required CSS --> <link href="path/to/dist/angular.tableview.min.css" rel="stylesheet" />
+<!-- Theme CSS --> <link href="path/to/dist/angular.tableview.material.min.css" rel="stylesheet" />
 ```
 
 Turn on `tableview` module in the your awesome `application`:
@@ -76,7 +78,7 @@ Pass grid [configuration] via `tableview` attribute:
 
 In the case if you need to completely change default template of `tableview` directive, you can define path to your template via `tableview-template-url` attribute:
 ```html
-<div tableview="configuration" tableview-template-url="path/to/your/template.html"></div>
+<div tableview="configuration" tableview-theme="'material'" tableview-template-url="path/to/your/template.html"></div>
 ```
 
 Directive attributes:
@@ -84,6 +86,7 @@ Directive attributes:
 | Attribute              | Type              | Details                                       |
 |:-----------------------|:-----------------:|:----------------------------------------------|
 | tableview              | `required` Object | TableView instance [configuration] object     |
+| tableview-theme        | `optional` String | The name of TableView theme to be used here   |
 | tableview-template-url | `optional` String | Path to your custom template of the TableView |
 
 All that you needed is to define in your controller [configuration] and data [provider] function
@@ -99,9 +102,9 @@ function by passing [response] object as argument.
 <html ng-app="app">
   <head>
     <script type="text/javascript" src="angular.min.js"></script>
-    <script type="text/javascript" src="angular.tableview.js"></script>
+    <script type="text/javascript" src="angular.tableview.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="angular.tableview.min.css" />
     <script type="text/javascript" src="script.js"></script>
-    <link rel="stylesheet" type="text/css" href="angular.tableview.css" />
   </head>
   <body ng-controller="Ctrl">
     <h1>AngularJS TableView Example</h1>
@@ -232,11 +235,13 @@ All properties of the `CONFIGURATION` object except `columns` and [provider] are
 | template["pager"]                 | `optional` String         | An identifier of the generic template to be used as pager section of the table                                                                                                                                                                                |
 | template["pager.limit"]           | `optional` String         | An identifier of the generic template to be used as pager limit section of the pager                                                                                                                                                                          |
 | template["pager.controls"]        | `optional` String         | An identifier of the generic template to be used as pager limit controls section of the pager                                                                                                                                                                 |
+| template["pager.selection"]       | `optional` String         | An identifier of the generic template to be used as selection controls section when `selectableBy` mode enabled                                                                                                                                               |
 | [request]                         | `optional` Object         | Initial custom [request] object that can be used to provide stored [request] from previous user session                                                                                                                                                       |
 | multisorting                      | `optional` Boolean        | Turns on multicolumns sorting logic                                                                                                                                                                                                                           |
 | selectableBy                      | `optional` String         | Turns on rows selection logic by primary key field                                                                                                                                                                                                            |
 | scrollable                        | `optional` Object         | Turns on scrollable logic for the table area and allows to provide custom styles for scrollable area such as `{maxHeight: "400px"}`                                                                                                                           |
 | limits                            | `optional` Array          | Default: [10, 25, 50, 100]. Custom list of limit numbers                                                                                                                                                                                                      |
+| theme                             | `optional` String         | The name of the custom TableView theme to be used for the current instance (The `material` theme as example is available in `dist/angular.tableview.material.min.css`)                                                                                        |
 
 <a name="configuration-example"></a>
 Configuration object example:
@@ -279,7 +284,8 @@ $scope.configuration = {
   scrollable: {
     maxHeight: "400px"
   },
-  selectableBy: "id"
+  selectableBy: "id",
+  theme: "material"
 };
 
 function dataProvider (request, callback) {
@@ -306,6 +312,25 @@ function saveValidChangedField (column, row, field, value) {
 }
 ```
 
+<a name="$tableViewProvider"></a>
+**`$tableViewProvider` configuration**
+
+To define global configuration for your application you can use `$tableViewProvider`.
+
+For example:
+```javascript
+var app = angular.module("app", ["tableview"]);
+
+app.config(function($tableViewProvider){
+  $tableViewProvider.theme = "material";
+  $tableViewProvider.templateUrl = "path/to/your/complete/template.html";
+  $tableViewProvider.template = {
+    "head.cell": "your/custom/angular/template.name.html",
+    // ...
+  };
+});
+```
+
 <a name="css"></a>
 **The list of configuration-dependency CSS classes that provided in the default template**
 
@@ -317,7 +342,7 @@ function saveValidChangedField (column, row, field, value) {
 | sortable-`asc|desc` | [tableview]>.holder>table>`thead|tbody`>tr>`th|td` | To identify the sorting order of the column                                                                                         |
 | selectable          | [tableview]>.holder>table>`thead|tbody`>tr>`th|td` | For customization of the selection column                                                                                           |
 | selected            | [tableview]>.holder>table>`thead|tbody`>tr         | To identify that the row is selected                                                                                                |
-| scrollable          | [tableview]>.holder                                | To identify that the table is scrollable                                                                                            |
+| scrollable          | [tableview]                                        | To identify that the table is scrollable                                                                                            |
 | editable            | [tableview]>.holder>table>`thead|tbody`>tr>`th|td` | To identify that the column is editable by the columns [configuration]                                                              |
 | edition             | [tableview]>.holder>table>`tbody`>tr>`th|td`       | To identify that the cell is editable and in edition mode                                                                           |
 | invalid             | [tableview]>.holder>table>`tbody`>tr>`th|td`       | To identify that the cell is editable and in edition mode and has been invalidated by the field validator                           |
