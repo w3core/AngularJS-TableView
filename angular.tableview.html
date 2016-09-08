@@ -46,9 +46,9 @@
 </script>
 
 <script type="text/ng-template" id="tableview.pager">
-  <div class="limit" ng-include="templateName('pager.limit') || themeTemplateName('pager.limit') || defaultTemplateName('pager.limit')"></div>
-  <div class="selection" ng-include="templateName('pager.selection') || themeTemplateName('pager.selection') || defaultTemplateName('pager.selection')" ng-if="tableview.selection.length"></div>
-  <div class="controls" ng-include="templateName('pager.controls') || themeTemplateName('pager.controls') || defaultTemplateName('pager.controls')"></div>
+  <div class="limit" ng-include="templateName('pager.limit')"></div>
+  <div class="selection" ng-include="templateName('pager.selection')" ng-if="tableview.selection.length"></div>
+  <div class="controls" ng-include="templateName('pager.controls')"></div>
 </script>
 
 <script type="text/ng-template" id="tableview.pager.limit">
@@ -71,18 +71,10 @@
       <tr>
         <th ng-if="tableview.selectableBy"
             class="selectable"
-            ng-include="
-              templateName('head.cell.select')
-              || themeTemplateName('head.cell.select')
-              || defaultTemplateName('head.cell.select')
-            "
+            ng-include="templateName('head.cell.select')"
         ></th>
         <th ng-repeat="$column in tableview.columns"
-            ng-include="
-              templateName('head.cell', $index)
-              || themeTemplateName('head.cell')
-              || defaultTemplateName('head.cell')
-            "
+            ng-include="templateName('head.cell', $index)"
             class="{{
               $column.name ? 'column-'+$column.name : ''
               }} {{
@@ -103,11 +95,7 @@
       <tr ng-repeat="$row in tableview.rows" ng-if="$index < tableview.request.limit" ng-class="{'selected': tableview.selectableBy && isRowSelected($row)}">
         <td ng-if="tableview.selectableBy"
             class="selectable"
-            ng-include="
-              templateName('body.cell.select')
-              || themeTemplateName('body.cell.select')
-              || defaultTemplateName('body.cell.select')
-            "
+            ng-include="templateName('body.cell.select')"
         ></td>
         <td ng-repeat="$column in tableview.columns"
             ng-init="
@@ -115,18 +103,7 @@
               $mode={edition:false, value:$cell};
             "
             ng-click="$mode.edition=$column.editable?true:false"
-            ng-include="
-              $mode.edition ? (
-                 templateName('body.cell.edit', $index)
-                 || themeTemplateName('body.cell.edit')
-                 || defaultTemplateName('body.cell.edit')
-              )
-              : (
-                 templateName('body.cell', $index)
-                 || themeTemplateName('body.cell')
-                 || defaultTemplateName('body.cell')
-              )
-            "
+            ng-include="$mode.edition ? templateName('body.cell.edit', $index) : templateName('body.cell', $index)"
             class="{{
               $column.name ? 'column-'+$column.name : ''
               }} {{
@@ -147,5 +124,5 @@
     <tfoot ng-if="templateName('template.foot')" ng-include="templateName('template.foot')"></tfoot>
   </table>
 </div>
-<pager ng-include="templateName('pager') || themeTemplateName('pager') || defaultTemplateName('pager')"></pager>
+<pager ng-include="templateName('pager')"></pager>
 <pre ng-if="tableview.debug">{{tableview | json}}</pre>

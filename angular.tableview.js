@@ -1,5 +1,5 @@
 /*
- AngularJS TableView v1.1.0
+ AngularJS TableView v1.1.1
  (c) 2016 Max Chuhryaev <w3core@gmail.com> https://github.com/w3core/AngularJS-TableView
  License: MIT
 */
@@ -26,7 +26,7 @@ angular
     }
   };
 })
-.directive("tableview", function($compile, $http, $tableView) {
+.directive("tableview", function($compile, $http, $templateCache, $tableView) {
   var MODULE_NAME = "angular.tableview";
   var MODULE_URL = getModuleURL();
   var MODULE_TPL = MODULE_URL + MODULE_NAME + ".html";
@@ -261,25 +261,28 @@ angular
           }
         };
 
-        $scope.templateName = function (name, $index) {
-          // column.template
-          // options.template
-          // provider.template
-          // - theme.template
-          // - default
-          var $0 = typeof $index != "undefined" && $scope.tableview.columns[$index] && $scope.tableview.columns[$index].template ? $scope.tableview.columns[$index].template : {};
-          var $1 = $scope.tableview.template && typeof $scope.tableview.template == "object" ? $scope.tableview.template : {};
-          var $2 = $scope.$provider.template && typeof $scope.$provider.template == "object" ? $scope.$provider.template : {};
-          return $0[name] || $1[name] || $2[name] || null;
-        };
-
         $scope.themeTemplateName = function (name) {
-          return null; // TODO
-          return $scope.theme ? ["tableview", $scope.theme, name].join(".") : null;
+          if ($scope.theme && name) {
+            var name = ["tableview", $scope.theme, name].join(".");
+            return typeof $templateCache.get(name) == "string" ? name : undefined;
+          }
         };
 
         $scope.defaultTemplateName = function (name) {
           return ["tableview", name].join(".");
+        };
+
+        $scope.templateName = function (name, $index) {
+          // column.template
+          // options.template
+          // provider.template
+          // theme.template
+          // default
+          var $0 = typeof $index != "undefined" && $scope.tableview.columns[$index] && $scope.tableview.columns[$index].template ? $scope.tableview.columns[$index].template : {};
+          var $1 = $scope.tableview.template && typeof $scope.tableview.template == "object" ? $scope.tableview.template : {};
+          var $2 = $scope.$provider.template && typeof $scope.$provider.template == "object" ? $scope.$provider.template : {};
+          var tpl = $0[name] || $1[name] || $2[name] || $scope.themeTemplateName(name) || $scope.defaultTemplateName(name);
+          return typeof $templateCache.get(tpl) == "string" ? tpl : undefined;
         };
 
         $scope.exec();
