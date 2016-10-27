@@ -3,8 +3,28 @@
  (c) 2016 Max Chuhryaev <w3core@gmail.com> https://github.com/w3core/AngularJS-TableView
  License: MIT
 */
-angular
-.module("tableview", [])
+
+(function (root, factory) {
+    if (typeof module !== 'undefined' && module.exports) {
+        // CommonJS
+        if (typeof angular === 'undefined') {
+            factory(require('angular'));
+        } else {
+            factory(angular);
+        }
+        module.exports = 'tableview';
+    } else if (typeof define === 'function' && define.amd) {
+        // AMD
+        define(['angular'], factory);
+    } else {
+        // Global Variables
+        factory(root.angular);
+    }
+}(this, function (angular) {
+
+var module = angular.module("tableview", []);
+
+module
 .provider("$tableView", function(){
   var that = this;
   this.theme = null;
@@ -290,3 +310,6 @@ angular
     }
   };
 });
+
+return module;
+}));
